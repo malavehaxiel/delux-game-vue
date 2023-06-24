@@ -40,7 +40,8 @@
             <input v-model="form.height" type="number">
         </div>
         <div>
-            <button @click="save" style="background-color: cornflowerblue;">Guardar</button>
+            <button @click="save" style="background-color: cornflowerblue; margin-right: 10px; margin-top: 10px;">Guardar</button>
+            <button @click="back" style="background-color: lightgrey;">Regresar</button>
         </div>
     </section>
 
@@ -87,6 +88,9 @@
 
 import { ref, onMounted } from 'vue'
 import GamersStore from '../stores/gamers'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const storeGamers = new GamersStore()
 
@@ -120,5 +124,9 @@ const getGamers = async () => {
 const remove = async (dni) => {
     await storeGamers.removeGamer(dni)
     getGamers()
+}
+
+const back = () => {
+    router.push({ name: '/' })
 }
 </script>

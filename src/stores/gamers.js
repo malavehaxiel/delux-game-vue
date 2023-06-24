@@ -14,6 +14,7 @@ export default defineStore({
     isError: (state) => state._status === 'error',
     error: (state) => state._error,
     gamers: (state) => state._gamers,
+    cant: (state) => state._gamers.length,
   },
   actions: {
     getGamers() {

@@ -1,40 +1,62 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  msg: String,
-})
-
-const count = ref(0)
-</script>
-
 <template>
-  <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR
-    </p>
-  </div>
+  <h1>Delux Game</h1>
 
   <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
+    <a href="#" @click="toGamerRouterPush"># Jugadores</a>
   </p>
   <p>
-    Install
-    <a href="https://github.com/vuejs/language-tools" target="_blank">Volar</a>
-    in your IDE for a better DX
+    <a href="#" @click="toTeamsRouterPush"># Equipos</a>
   </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+
+  <hr>
+
+  <ul>
+    <li>
+      <h3 style="display: inline-block; margin-right: 10px;">Numero de Jugadores registrados:</h3>
+      <span>{{ cantGamers }}</span>
+    </li>
+    <li>
+      <h3 style="display: inline-block; margin-right: 10px;">Numero de Equipos registrados:</h3>
+      <span>{{ cantTeams }}</span>
+    </li>
+  </ul>
 </template>
 
-<style scoped>
-.read-the-docs {
-  color: #888;
+<script setup>
+import { ref, onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
+import GamersStore from '../stores/gamers'
+import TeamsStore from '../stores/teams'
+
+const storeGamers = new GamersStore()
+const storeTeams = new TeamsStore()
+
+const router = useRouter()
+
+const cantGamers = ref(0)
+const cantTeams = ref(0)
+
+
+const toGamerRouterPush = () => {
+  router.push({ name: 'gamers' })
 }
-</style>
+
+const toTeamsRouterPush = () => {
+  router.push({ name: 'teams' })
+}
+
+const getTeams = async () => {
+    await storeTeams.getTeams()
+    cantTeams.value = storeTeams.cant
+}
+
+const getGamers = async () => {
+    await storeGamers.getGamers()
+    cantGamers.value = storeGamers.cant
+}
+
+onBeforeMount(async () => {
+  await getGamers()
+  await getTeams()
+})
+</script>
