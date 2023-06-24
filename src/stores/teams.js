@@ -32,6 +32,10 @@ export default defineStore({
 
         localStorage.setItem('teams', JSON.stringify(teams))
     },
+    async find(code) {
+        let teams = JSON.parse(localStorage.getItem('teams')) ?? []
+        return teams.find(team => team.code == code)
+    },
     setLoading() {
       this._status = 'loading'
     },

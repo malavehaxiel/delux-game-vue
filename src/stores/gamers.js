@@ -941,7 +941,15 @@ export default defineStore({
         //     }
         // ]))
 
-        this._gamers = JSON.parse(localStorage.getItem('gamers')) ?? []
+        let gamers = JSON.parse(localStorage.getItem('gamers')) ?? []
+
+        this._gamers = gamers.map(element => {
+          let teams = JSON.parse(localStorage.getItem('teams')) ?? []
+          let teamSearch = teams.find(team => team.code == element.team_code) ?? {}
+
+          element.team = teamSearch
+          return element
+        });
     },
     async saveGamer(form) {
         let gamers = JSON.parse(localStorage.getItem('gamers')) ?? []

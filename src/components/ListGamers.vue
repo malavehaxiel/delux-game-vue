@@ -18,7 +18,7 @@
         </div>
         <div>
             <label for="gender" style="padding-right: 20px;">Género</label>
-            <select v-model="form.gender">
+            <select v-model="form.gender" style="padding: 5px;">
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
@@ -40,6 +40,12 @@
             <input v-model="form.height" type="number">
         </div>
         <div>
+            <label for="height" style="padding-right: 20px;">Equipo</label>
+            <select v-model="form.team_code" style="padding: 5px;">
+                <option v-for="(item, i) in teams" :key="i" :value="item.code">{{ item.name }}</option>
+            </select>
+        </div>
+        <div>
             <button @click="save" style="background-color: cornflowerblue; margin-right: 10px; margin-top: 10px;">Guardar</button>
             <button @click="back" style="background-color: lightgrey;">Regresar</button>
         </div>
@@ -59,6 +65,7 @@
                 <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">Nacionalidad</th>
                 <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">Peso</th>
                 <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">Estatura</th>
+                <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">Equipo</th>
                 <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">Acciones</th>
             </tr>
         </thead>
@@ -74,6 +81,9 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ gamer.weight }} (kg)</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{ gamer.height }} (cm)</td>
                 <td class="px-6 py-4 whitespace-nowrap">
+                    <span v-if="gamer.team.code">{{ gamer.team_code }} - {{ gamer.team.name }}</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
                     <button @click="remove(gamer.dni)" style="background-color: indianred;">Eliminar</button>
                 </td>
             </tr>
@@ -88,12 +98,16 @@
 
 import { ref, onMounted } from 'vue'
 import GamersStore from '../stores/gamers'
+import TeamsStore from '../stores/teams'
 import { useRouter } from 'vue-router'
+
+const storeTeams = new TeamsStore()
 
 const router = useRouter()
 
 const storeGamers = new GamersStore()
 
+const teams = ref([])
 const gamers = ref([])
 const form = ref({
     name: '',
@@ -103,10 +117,12 @@ const form = ref({
     dni: '',
     nacionality: '',
     weight: '',
-    height: ''
+    height: '',
+    team_code: ''
 })
 
 onMounted(() => {
+    getTeams()
     getGamers()
 })
 
@@ -128,5 +144,10 @@ const remove = async (dni) => {
 
 const back = () => {
     router.push({ name: '/' })
+}
+
+const getTeams = async () => {
+    await storeTeams.getTeams()
+    teams.value = storeTeams.teams
 }
 </script>
