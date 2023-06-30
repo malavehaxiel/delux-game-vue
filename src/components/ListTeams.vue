@@ -1,26 +1,26 @@
 <template>
 <div>
-    <h1>Lista de Equipos</h1>
+    <h1 class="text-blue-400 mb-2">Lista de Equipos</h1>
 
     <hr>
-    <section>
-        <div>
-            <label for="name" style="padding-right: 20px;">Código Único</label>
-            <input v-model="form.code" type="text">
+    <section class="my-2">
+        <div class="mb-2 w-1/2 p-1">
+            <label for="name" class="block text-sm font-medium text-slate-700">Código Único</label>
+            <input v-model="form.code" type="text" class="bg-white shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-2 w-1/2 p-1">
+            <label for="lastname" class="block text-sm font-medium text-slate-700">Nombre de Equipo</label>
+            <input v-model="form.name" type="text" class="bg-white shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
         </div>
         <div>
-            <label for="lastname" style="padding-right: 20px;">Nombre de Equipo</label>
-            <input v-model="form.name" type="text">
-        </div>
-        <div>
-            <button  @click="save" style="background-color: cornflowerblue; margin-right: 10px; margin-top: 10px;">Guardar</button>
-            <button @click="back" style="background-color: lightgrey;">Regresar</button>
+            <button  @click="save" class="bg-blue-500 text-white py-2 px-4 rounded m-1">Guardar</button>
+            <button @click="back" class="bg-gray-500 text-white py-2 px-4 rounded m-1">Regresar</button>
         </div>
     </section>
 
     <hr>
 
-    <table class="w-full divide-y divide-gray-200">
+    <table class="w-full divide-y divide-gray-200 mt-2">
         <thead>
             <tr>
                 <th class="px-6 py-3 bg-blue-500 text-left text-xs font-medium text-white uppercase tracking-wider">#</th>
